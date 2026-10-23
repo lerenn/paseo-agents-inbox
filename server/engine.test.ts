@@ -106,6 +106,19 @@ describe("delivery", () => {
     expect(item.status).toBe("answered");
   });
 
+  it("marks an answer undeliverable when the asker is archived or gone", async () => {
+    const archived = new Set<string>();
+    const { engine, sent } = setup({ sendFails: () => true, archived });
+    const { item } = engine.ask({ agentId: "a", question: "q" });
+    engine.answer(item.id, { text: "hi" });
+    archived.add("a");
+    await engine.deliver();
+    expect(item.delivery).toBe("undeliverable");
+    expect(item.status).toBe("answered");
+    expect(sent).toHaveLength(0);
+    expect(engine.store.events().at(-1)?.type).toBe("undeliverable");
+  });
+
   it("holds messages for an agent with a pending permission request", async () => {
     const { engine, sent } = setup();
     const { item } = engine.ask({ agentId: "a", question: "q" });

@@ -8,7 +8,7 @@ New agents get these MCP tools:
 - `inbox_status(item_id)`, `inbox_list(status?)` show the caller's own items.
 - `inbox_withdraw(item_id, reason?)` takes back a pending question.
 
-A blocking question (the default) tells the agent to end its turn. A non-blocking one lets it carry on and be told later. When you answer, the agent receives a message starting with "Agents Inbox:" carrying your choice and comment. An answer is recorded once: a second answer is refused and the first stands. If the message cannot be delivered, the answer stays recorded and delivery is retried with backoff; it is held while the agent has a permission request pending.
+A blocking question (the default) tells the agent to end its turn. A non-blocking one lets it carry on and be told later. When you answer, the agent receives a message starting with "Agents Inbox:" carrying your choice and comment. An answer is recorded once: a second answer is refused and the first stands. If the message cannot be delivered, the answer stays recorded and delivery is retried with backoff (an archived or vanished agent is marked undeliverable instead); it is held while the agent has a permission request pending.
 
 An item can expire. With a `default_answer` the default is recorded as the answer (marked as default) and the agent is woken; without one the agent is told it expired. If the asking agent is archived its pending questions are withdrawn. Agents cannot answer, and Inbox does not replace Paseo's permission prompts.
 
