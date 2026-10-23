@@ -1,21 +1,16 @@
 import { useRpc, type PluginClientContext, type PluginSidebarItemProps } from "@getpaseo/plugin/client";
 import { SidebarRow } from "@getpaseo/plugin/client/ui";
-import { hostBadgeComponent } from "./client/host-badge";
 import { useQuery } from "@tanstack/react-query";
 import { Text, View } from "react-native";
 import { InboxScreen } from "./client/screen";
 import { countRpc } from "./shared/rpc";
 
-const HostBadge = hostBadgeComponent();
-
-function InboxItem({ currentScreen, openScreen, theme, host }: PluginSidebarItemProps) {
+function InboxItem({ currentScreen, openScreen, theme }: PluginSidebarItemProps) {
   const count = useRpc(countRpc);
   const query = useQuery({ queryKey: ["inbox", "count"], queryFn: () => count({}), refetchInterval: 10_000 });
   const unread = query.data?.unread ?? 0;
   return (
     <SidebarRow
-      // `subtitle` is newer than the pinned plugin types, hence the spread.
-      {...(HostBadge ? { subtitle: <HostBadge hostId={host.id} /> } : {})}
       icon="Inbox"
       active={currentScreen?.screenId === "inbox"}
       onPress={() => openScreen({ screenId: "inbox" })}
