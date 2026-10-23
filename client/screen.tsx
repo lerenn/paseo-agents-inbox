@@ -1,4 +1,4 @@
-import { useHosts, useRpc, type PluginScreenProps } from "@getpaseo/plugin/client";
+import { useRpc, type PluginScreenProps } from "@getpaseo/plugin/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
@@ -29,13 +29,7 @@ function statusIcon(status: ItemStatus, c: Colors): { glyph: string; color: stri
   }
 }
 
-/** "Agents Inbox", plus the host label only when several hosts are connected. */
-function hostTitle(base: string, label: string, hostCount: number): string {
-  return hostCount > 1 ? `${base} · ${label}` : base;
-}
-
-export function InboxScreen({ theme, layout, host }: PluginScreenProps) {
-  const hosts = useHosts();
+export function InboxScreen({ theme, layout }: PluginScreenProps) {
   const list = useRpc(listItemsRpc);
   const answerCall = useRpc(answerRpc);
   const readCall = useRpc(readRpc);
@@ -179,7 +173,7 @@ export function InboxScreen({ theme, layout, host }: PluginScreenProps) {
 
   return (
     <ScrollView style={s.screen} contentContainerStyle={s.body}>
-      <Text style={s.h}>{hostTitle("Agents Inbox", host.label, hosts.length)}</Text>
+      <Text style={s.h}>Agents Inbox</Text>
       <View style={s.tabs}>
         {tabs.map((t) => (
           <Pressable key={t.id} accessibilityRole="button" accessibilityLabel={t.label} onPress={() => setTab(t.id)} style={[s.tab, tab === t.id ? { backgroundColor: theme.colors.surface2 } : null]}>
