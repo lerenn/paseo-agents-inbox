@@ -1,0 +1,9 @@
+{
+  "id": "agents-inbox",
+  "name": "Agents Inbox",
+  "description": "Agents ask you a question or request an approval; you answer in an Inbox screen and they are woken with the answer.",
+  "requirements": {
+    "paseo": ">=0.11.2"
+  },
+  "build": [["npm", "ci"]]
+}
