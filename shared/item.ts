@@ -39,7 +39,7 @@ export const itemViewSchema = z.object({
   readAt: z.number().nullable(),
   answer: answerSchema.nullable(),
   comment: z.string().nullable(),
-  delivery: z.enum(["pending", "sent", "failed", "none"]),
+  delivery: z.enum(["pending", "sent", "failed", "undeliverable", "none"]),
   endedAt: z.number().nullable(),
 });
 export type ItemView = z.infer<typeof itemViewSchema>;

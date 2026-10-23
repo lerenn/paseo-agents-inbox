@@ -239,6 +239,13 @@ export class Engine {
         this.store.log({ itemId: item.id, type: "delivered", actor: "system", detail: null }, now);
       } catch (error) {
         const detail = (error as Error).message;
+        // An archived or vanished asker can never be told: mark it so the UI says so, instead of retrying.
+        if (await this.actions.isArchived(item.agentId).catch(() => false)) {
+          item.delivery = "undeliverable";
+          this.store.log({ itemId: item.id, type: "undeliverable", actor: "system", detail: "asking agent archived or gone" }, now);
+          this.store.save();
+          continue;
+        }
         if (item.deliveryAttempts >= s.maxDeliveryAttempts) item.delivery = "failed";
         this.store.log({ itemId: item.id, type: "delivery_failed", actor: "system", detail }, now);
       }

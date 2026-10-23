@@ -26,7 +26,7 @@ export interface Item {
   comment: string | null;
   /** Message owed to the asker: "answer" after an answer, "expired" after an expiry without default. */
   owed: "answer" | "expired" | null;
-  delivery: "pending" | "sent" | "failed" | "none";
+  delivery: "pending" | "sent" | "failed" | "undeliverable" | "none";
   deliveryAttempts: number;
   lastAttemptAt: number | null;
   endedAt: number | null;
@@ -45,6 +45,7 @@ export interface AuditEvent {
     | "archived"
     | "delivered"
     | "delivery_failed"
+    | "undeliverable"
     | "read";
   actor: string;
   detail: string | null;
